@@ -1,0 +1,13 @@
+@if (!loginDisplay){
+<div>
+    <p>Please sign-in to see user information.</p>
+</div>
+}
+
+@if (loginDisplay){
+<div>
+    <p>Login successful!</p>
+    <p>Call a B2C protected web API by selecting the Hello API link above.</p>
+    <p>Claims in your ID token are shown below: </p>
+</div>
+}

@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'cloudlabs-partner-portal' title`, () => {
+  it(`should have the 'cloudlabs-portal' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('cloudlabs-partner-portal');
+    expect(app.title).toEqual('cloudlabs-portal');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, cloudlabs-partner-portal');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, cloudlabs-portal');
   });
 });

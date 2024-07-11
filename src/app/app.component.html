@@ -1,1 +1,16 @@
-<h1>{{heading}}</h1>
+<mat-toolbar color="primary">
+  <a class="title" href="/" style="list-style: none; color: #fff; text-decoration: none;">{{ title }}</a>
+
+  <div class="toolbar-spacer"></div>
+
+  <div style="display:block; margin-left: 87%;">
+
+    <a mat-button [routerLink]="['user']">User</a>
+
+    <button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
+    <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
+<div class="container">
+  <router-outlet *ngIf="!isIframe"></router-outlet>
+</div>

@@ -1,0 +1,23 @@
+<div style="margin: 10px 100px;">
+    <h1>This is users page</h1>
+    <div *ngIf="partnerData">
+        <!-- <p><strong>Name: </strong> {{user.givenName}}</p> -->
+        <h2>Partner Details</h2>
+        <p><strong>ID:</strong> {{ partnerData.Id }}</p>
+        <p><strong>Encrypted Partner ID:</strong> {{ partnerData.EncryptedPartnerId }}</p>
+        <p><strong>Partner ID:</strong> {{ partnerData.PartnerId }}</p>
+        <p><strong>Role:</strong> {{ partnerData.Role }}</p>
+        <p><strong>Role Name:</strong> {{ partnerData.RoleName }}</p>
+        <p><strong>Email:</strong> {{ partnerData.Email }}</p>
+        <p><strong>Name:</strong> {{ partnerData.Name }}</p>
+        <p><strong>Organization:</strong> {{ partnerData.Organization }}</p>
+        <p><strong>Is Automated User:</strong> {{ partnerData.IsAutomatedUser }}</p>
+        <p><strong>Event ID:</strong> {{ partnerData.EventId }}</p>
+        <p><strong>Job Role:</strong> {{ partnerData.JobRole }}</p>
+        <p><strong>Job Location:</strong> {{ partnerData.JobLocation }}</p>
+        <p><strong>Sub Partner Organization ID:</strong> {{ partnerData.SubPartnerOrganizationId }}</p>
+        <p><strong>Is Requester:</strong> {{ partnerData.IsRequester }}</p>
+        <p><strong>Sys Admin Allow Event Creation:</strong> {{ partnerData.SysAdminAllowEventCreation }}</p>
+        <p><strong>Make Lab Request Unique ID Optional:</strong> {{ partnerData.MakeLabRequestUniqueIdOptional }}</p>
+    </div>
+</div>
