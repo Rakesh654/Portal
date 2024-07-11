@@ -1,6 +1,6 @@
 {
-  "/**": {
-    "target": "https://cloudlabs-api.azurewebsites.net/api/AECUser/AuditForLogin/true",
+  "/api": {
+    "target": "https://cloudlabs-api.azurewebsites.net",
     "secure": true,
     "changeOrigin": true
   }
