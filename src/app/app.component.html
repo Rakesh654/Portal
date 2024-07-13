@@ -2,7 +2,7 @@
   <!-- <a class="title" href="/" style="list-style: none; color: #fff; text-decoration: none;">{{ title }}</a> -->
   <a class="title" href="/"><img role="img" aria-hidden="true"
       src="https://admin-qa.cloudlabs.ai/assets2/assets/img/new_cloudlabs_white.png" alt="logo" class="logo-default"
-      style="margin-top: 7px !important; width: auto; height: 39px"></a>
+      style="margin-top: 7px !important; width: auto; height: 39px" [routerLink]="['home']"></a>
 
   <div class="toolbar-spacer"></div>
 
@@ -14,6 +14,9 @@
     <button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
   </div>
 </mat-toolbar>
+<div *ngIf="!loginDisplay">
+  <p>Please sign-in to see user information.</p>
+</div>
 <div class="container">
   <router-outlet *ngIf="!isIframe"></router-outlet>
 </div>

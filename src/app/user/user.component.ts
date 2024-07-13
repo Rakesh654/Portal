@@ -4,13 +4,7 @@ import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { Partner } from '../interface/partner.interface';
-type UserType = {
-  givenName?: string;
-  surname?: string;
-  userPrincipalName?: string;
-  id?: string;
-  CountryName?: string;
-};
+import { AdminUserConfig } from '../interface/AdminUserConfig.interface';
 
 @Component({
   selector: 'app-user',
@@ -20,17 +14,17 @@ type UserType = {
   styleUrl: './user.component.scss',
 })
 export class UserComponent implements OnInit {
-  // user!: UserType;
-  // apiData!: Partner;
   partnerData: Partner | any = null;
+  path = 'partneruser/GetPartnerForProfile';
+  selectedTenant: AdminUserConfig | any = null;
+  // ELEMENT_DATA: OnDemandLab[] | any = [];
 
   constructor(private http: HttpClient) {}
-
   ngOnInit() {
     this.getValue(environment.apiConfig.uri);
+    // this.getOnDemandLab(environment.apiConfig.uri);
   }
 
-  path = 'partneruser/GetPartnerForProfile';
   // Option/Countries
 
   getValue(url: string) {
@@ -40,6 +34,20 @@ export class UserComponent implements OnInit {
     });
   }
 }
+
+// getOnDemandLab(url: string) {
+//   this.http
+//     .post(`${url}/OnDemandLab/GetOnDemandLabs`, {
+//       InstructorId: null,
+//       State: '2',
+//       StartIndex: 100,
+//       PageCount: 1,
+//     })
+//     .subscribe((response) => {
+//       console.log(response);
+//       this.ELEMENT_DATA = response;
+//     });
+// }
 
 // .post(`${url}/OnDemandLab/GetOnDemandLabs`, {
 //         InstructorId: null,

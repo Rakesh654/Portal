@@ -35,7 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
-import { customInterceptor } from './service/custom.interceptor';
+import { AuthInterceptor } from './service/auth.interceptor';
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
   console.log(message);
@@ -109,7 +109,7 @@ export const appConfig: ApplicationConfig = {
       MatListModule,
       MatMenuModule
     ),
-    provideHttpClient(withInterceptors([customInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor])),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     {
       provide: HTTP_INTERCEPTORS,

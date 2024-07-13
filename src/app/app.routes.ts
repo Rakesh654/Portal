@@ -11,7 +11,7 @@ export const routes: Routes = [
     canActivate: [MsalGuard],
   },
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
   },
   {

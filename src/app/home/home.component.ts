@@ -8,22 +8,28 @@ import {
   EventType,
 } from '@azure/msal-browser';
 import { filter } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { OnDemandLab } from '../interface/on-demand-lab.interface';
+import { HttpClient } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatTableModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   loginDisplay = false;
-  displayedColumns: string[] = ['claim', 'value'];
   dataSource: any = [];
+  ELEMENT_DATA: OnDemandLab[] | any = [];
+  displayedColumns: string[] = ['id', 'title', 'expiry', 'template'];
 
   constructor(
     private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService
+    private msalBroadcastService: MsalBroadcastService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -43,12 +49,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe(() => {
         this.setLoginDisplay();
-        this.getClaims(
-          this.authService.instance.getActiveAccount()?.idTokenClaims as Record<
-            string,
-            any
-          >
-        );
+        this.getOnDemandLab(environment.apiConfig.uri);
       });
   }
 
@@ -64,5 +65,17 @@ export class HomeComponent implements OnInit {
         }
       );
     }
+  }
+  getOnDemandLab(url: string) {
+    this.http
+      .post(`${url}/OnDemandLab/GetOnDemandLabs`, {
+        InstructorId: null,
+        State: '2',
+        StartIndex: 100,
+        PageCount: 1,
+      })
+      .subscribe((response) => {
+        this.ELEMENT_DATA = response;
+      });
   }
 }

@@ -3,7 +3,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   MSAL_GUARD_CONFIG,
   MsalGuardConfiguration,
@@ -26,6 +26,9 @@ import {
 } from '@azure/msal-browser';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { environment } from '../environments/environment';
+import { AdminUserConfig } from './interface/AdminUserConfig.interface';
+import { HttpClient } from '@angular/common/http';
+import { GetCurrentTenant } from './utility/helper';
 
 type IdTokenClaimsWithPolicyId = IdTokenClaims & {
   acr?: string;
@@ -51,24 +54,23 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'Cloudlabs';
   isIframe = false;
   loginDisplay = false;
+  selectedTenant: AdminUserConfig | any = null;
+  currentTenantId: number | null = null;
   private readonly _destroying$ = new Subject<void>();
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService
+    private msalBroadcastService: MsalBroadcastService,
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 
-    this.authService.handleRedirectObservable().subscribe((value) => {
-      // if (value != null) {
-      //   localStorage.setItem('AccessToken', value?.idToken);
-      // }
-      // console.log(value);
-    });
+    this.authService.handleRedirectObservable();
     this.isIframe = window !== window.parent && !window.opener; // Remove this line to use Angular Universal
 
     this.setLoginDisplay();
@@ -102,6 +104,12 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.setLoginDisplay();
         this.checkAndSetActiveAccount();
+        debugger;
+        this.selectedTenant = GetCurrentTenant('currentTenant');
+        this.currentTenantId = this.selectedTenant?.SelectedTenant.Id ?? null;
+        if (this.selectedTenant === null) {
+          this.getMenu(environment.apiConfig.uri);
+        }
       });
 
     this.msalBroadcastService.msalSubject$
@@ -195,6 +203,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+    if (this.loginDisplay) this.router.navigate(['/home']);
   }
 
   checkAndSetActiveAccount() {
@@ -273,6 +282,24 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.authService.logoutRedirect();
     }
+  }
+
+  getMenu(url: string) {
+    debugger;
+    this.http.get(`${url}/Menu/${this.currentTenantId}`).subscribe({
+      next: (response) => {
+        // This is your "successCallback" equivalent
+        this.selectedTenant = response; // Update your component data
+        localStorage.setItem(
+          'currentTenant',
+          JSON.stringify(this.selectedTenant)
+        );
+      },
+      error: (error) => {
+        // Handle errors here
+        console.error('API call failed:', error);
+      },
+    });
   }
 
   ngOnDestroy(): void {
